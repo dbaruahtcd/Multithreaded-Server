@@ -5,8 +5,8 @@ The thread pool has been set to 2.
 
 ######Environments
 
-*Programming language :- Java
-*Version :- jdk1.8
-*IDE - Eclipse
+* Programming language :- Java
+* Version :- jdk1.8
+* IDE - Eclipse
 
 #####Student ID 15308667
