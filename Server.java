@@ -10,7 +10,7 @@ public class Server implements Runnable {
 
 	private Socket socket = null;
 	private static boolean listening = true; 
-	private String serverReply, clientMsg;
+	private String serverReply, clientMsg, serverReply1, serverReply2, serverReply3;
 	private static ServerSocket socketServer = null;
 	private static ExecutorService executor = Executors.newFixedThreadPool(2);
 
@@ -26,10 +26,21 @@ public class Server implements Runnable {
 		try 
 		{
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			DataOutputStream out  = new DataOutputStream(socket.getOutputStream());
+			PrintStream out  = new PrintStream(socket.getOutputStream());
 			while((clientMsg = in.readLine()) != null)
 			{
-				if(clientMsg.matches("KILL_SERVICE"))
+				if  (clientMsg.startsWith("HELO"))
+				{
+					
+					serverReply = clientMsg;
+					serverReply1 = "IP:" + socket.getLocalAddress();
+					serverReply2 = "Port:" + socket.getLocalPort();
+					serverReply3 = "StudentID:1234";
+					out.println(serverReply + "\n" + serverReply1.replace("/", "") + "\n" + serverReply2 + "\n" + serverReply3);
+					out.flush();
+					
+				}
+				else if(clientMsg.matches("KILL_SERVICE"))
 				{
 
 					System.out.println("Closing down the server...");
@@ -40,8 +51,9 @@ public class Server implements Runnable {
 					socketServer.close();
 					System.exit(0);
 				}
-				serverReply = clientMsg + " IP : " + socket.getLocalAddress() + " Port :" + socket.getLocalPort()+ '\n' ;
-				out.writeChars("SERVER :" + serverReply);
+				else 
+					continue;
+				
 			}
 		}
 		catch(IOException e)
@@ -85,4 +97,3 @@ public class Server implements Runnable {
 	}
 
 }
-
