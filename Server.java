@@ -26,7 +26,7 @@ public class Server implements Runnable {
 		try 
 		{
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			PrintStream out  = new PrintStream(socket.getOutputStream());
+			PrintWriter out  = new PrintWriter(socket.getOutputStream());
 			while((clientMsg = in.readLine()) != null)
 			{
 				if  (clientMsg.startsWith("HELO"))
